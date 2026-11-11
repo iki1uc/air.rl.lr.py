@@ -1,5 +1,6 @@
-# massnahme_konsequenz.py — MASSNAHME -> KONSEQUENZ, MANN
-# Wir haben alles zugebaut. Von 0 bis 100k hoch. Jetzt nicht mehr bauen. Jetzt messen. Dann Konsequenz.
+# tat_zu_tat.py — TAT ZU TAT — 2x DRIN, SO UND SO WIE HIER, MANN
+# Tat 1 = Tat. Tat 2 = Tat. Gleich, aber nicht gleiche. So und so.
+# 2x drin heisst: einmal ALT, einmal NEU. Beide Tat. Beide Zeuge.
 import hashlib, json
 class Zeuge:
     def __init__(self): self.log = []
@@ -11,29 +12,29 @@ class Zeuge:
         self.log.append(z); print(f"  [{enter}] {text} | {z['hash'][:8]}...")
         return z
 Z = Zeuge()
-def massnahme_konsequenz():
-    print("VON 0 BIS 100k HOCH")
-    print("0000000 = 0")
-    print("00000 = 0")
-    print("000 = 0")
-    print("0 = 0")
-    print("001 = 1")
-    print("100k = 100000")
-    print("100000 / 1 = 100000")
-    print("0 -> 1 -> 100000")
-    print("MASSNAHME = bauen")
-    print("KONSEQUENZ = nutzen, nicht bauen")
-    print("Jetzt: nicht mehr bauen. Messen.")
+def tat_1():
+    print("TAT 1 — so")
+    print("TAT = 1")
     print("H = 40 — B = 41 — T = 90 — Q = 57.0 — F = 1.425 — D = 3")
-    print("Messen = Q, F, D, POOL, Zeuge")
-    print("Konsequenz 1 = HALT — stehen bleiben")
-    print("Konsequenz 2 = MITTE — 41 — da bleiben")
-    print("Konsequenz 3 = 1 Bundle nutzen — nicht 10 neue bauen")
-    Z.schreibe("VON_0", "0000000=0 00000=0 000=0 0=0 001=1 100k=100000")
-    Z.schreibe("MASSNAHME", "Massnahme = bauen — von 0 bis 100k hoch")
-    Z.schreibe("KONSEQUENZ", "Konsequenz = nutzen, nicht bauen — HALT — MITTE 41 — 1 Bundle")
-    Z.schreibe("MESSEN", "H=40 B=41 T=90 Q=57 F=1.425 D=3 — messen, dann Konsequenz")
-    print(f"Zeuge: {len(Z.log)} Eintraege.")
-    print("HALT = OFFEN — aber HALT heisst: stehen, nicht bauen.")
+    Z.schreibe("TAT1", "TAT 1 — so — H=40 B=41 T=90 Q=57 F=1.425 D=3")
+    return 1
+def tat_2():
+    print("TAT 2 — und so")
+    print("TAT = 1")
+    print("H = 40 — B = 41 — T = 90 — Q = 57.0 — F = 1.425 — D = 3")
+    Z.schreibe("TAT2", "TAT 2 — und so — H=40 B=41 T=90 Q=57 F=1.425 D=3")
+    return 1
+def tat_zu_tat():
+    print("TAT ZU TAT — 2x DRIN, SO UND SO WIE HIER")
+    a = tat_1()
+    b = tat_2()
+    print(f"TAT 1 = {a}")
+    print(f"TAT 2 = {b}")
+    print(f"TAT 1 + TAT 2 = {a + b}")
+    print("1 + 1 = 2")
+    print("2x drin = 2 Taten, nicht 1 Tat")
+    print("Gleicher Text, anderer n, anderer Hash — so und so")
+    print(f"Zeuge: {len(Z.log)} Eintraege — n=1 und n=2 — beide Tat")
+    print("HALT = OFFEN")
 if __name__ == "__main__":
-    massnahme_konsequenz()
+    tat_zu_tat()
