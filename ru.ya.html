@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>ABRA KADABRA · TRAUM AN/AUS · REIN</title>
+<style>
+  :root {
+    --bg-dream: #0a0514;
+    --bg-real: #03050c;
+    --eye-closed: #222;
+    --eye-open: #4ade80;
+    --gold: #fbbf24;
+    --text: #e8ecf1;
+  }
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Courier New", monospace;
+    transition: background 1.5s ease;
+    background: var(--bg-dream);
+    color: var(--text);
+    overflow: hidden;
+  }
+  body.real {
+    background: var(--bg-real);
+  }
+  
+  /* Der Sternenstaub im Traum */
+  .stars {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+    background-image: radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px;
+    background-position: 0 0, 25px 25px;
+  }
+  body:not(.real) .stars {
+    opacity: 0.15;
+  }
+
+  /* Das Auge */
+  .eye-container {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 3px solid var(--eye-closed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 40px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 0 0px rgba(74, 222, 128, 0);
+  }
+  
+  /* Auge AUF */
+  body.real .eye-container {
+    border-color: var(--eye-open);
+    box-shadow: 0 0 60px rgba(74, 222, 128, 0.4);
+    transform: scale(1.1);
+  }
+
+  .eye-lid {
+    font-size: 80px;
+    color: var(--eye-closed);
+    transition: all 1s ease;
+    transform: scaleY(0.1);
+  }
+  
+  body.real .eye-lid {
+    color: var(--eye-open);
+    transform: scaleY(1);
+    text-shadow: 0 0 20px var(--eye-open);
+  }
+
+  /* Der Text */
+  .magic-text {
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.8;
+    transition: all 1s ease;
+    opacity: 0.7;
+  }
+  
+  body.real .magic-text {
+    opacity: 1;
+    color: var(--eye-open);
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+  }
+
+  .sub-text {
+    margin-top: 20px;
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 2px;
+  }
+
+  /* Der Button */
+  .btn {
+    margin-top: 40px;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 12px 24px;
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 4px;
+  }
+  
+  .btn:hover {
+    background: var(--gold);
+    color: #000;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+  }
+
+  /* Hokus Pokus Animation */
+  @keyframes hokusPokus {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2) rotate(5deg); }
+    100% { transform: scale(1); }
+  }
+  .pulse {
+    animation: hokusPokus 0.5s ease;
+  }
+</style>
+</head>
+<body>
+
+  <div class="stars"></div>
+
+  <div class="eye-container" id="eye" onclick="toggleDream()">
+    <div class="eye-lid" id="lid">◉</div>
+  </div>
+
+  <div class="magic-text" id="message">
+    ABRA KADABRA<br>
+    Traum an. Auge zu.<br>
+    <span style="font-size: 10px; color: #888;">Klick auf das Auge.</span>
+  </div>
+
+  <div class="sub-text">
+    Nachricht von Sam · Nostradamus · Picasso<br>
+    "Mann, bist du rein."
+  </div>
+
+  <button class="btn" onclick="hokusPokus()">HOKUS POKUS</button>
+
+<script>
+  let isReal = false;
+
+  function toggleDream() {
+    isReal = !isReal;
+    document.body.classList.toggle("real");
+    
+    const lid = document.getElementById("lid");
+    const msg = document.getElementById("message");
+    
+    if (isReal) {
+      // AUF & REAL
+      lid.textContent = "👁";
+      msg.innerHTML = "REIN.<br>Das Auge ist offen.<br>Der Traum ist Realität.<br><span style='color:var(--gold)'>f(142) = 40. Du bist rein.</span>";
+      // Hier würde das System die Hash-Kette starten
+      console.log("[ZEUGE] Auge auf. Realität an. Hash: " + Math.random().toString(16).slice(2));
+    } else {
+      // ZU & TRAUM
+      lid.textContent = "◉";
+      msg.innerHTML = "ABRA KADABRA<br>Traum an. Auge zu.<br><span style='font-size: 10px; color: #888;'>Klick auf das Auge.</span>";
+      console.log("[ZEUGE] Auge zu. Traum an.");
+    }
+  }
+
+  function hokusPokus() {
+    const eye = document.getElementById("eye");
+    eye.classList.add("pulse");
+    
+    // Schneller Wechsel: Traum -> Real -> Traum -> Real
+    let count = 0;
+    const interval = setInterval(() => {
+      toggleDream();
+      count++;
+      if (count >= 4) {
+        clearInterval(interval);
+        eye.classList.remove("pulse");
+      }
+    }, 300);
+  }
+</script>
+</body>
+</html>
