@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WASSER ICE FÜR SICHT · GATE SICHT LOCH</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#02060a;color:#e8f0ff;font-family:Consolas,monospace;text-align:center;padding:14px}
+h1{font-size:14px;letter-spacing:5px;color:#5cf0ff}
+#sub{font-size:10px;letter-spacing:2px;color:#8aa0b0;margin:6px 0 12px}
+#stage{position:relative;width:min(72vh,92vw);height:min(72vh,92vw);margin:0 auto;border-radius:50%;overflow:hidden;
+background:linear-gradient(180deg, rgba(92,240,255,.9), rgba(0,60,120,.9) 40%, rgba(240,208,128,.4) 100%);
+box-shadow:0 0 60px rgba(92,240,255,.5), inset 0 0 40px rgba(255,255,255,.4)}
+#eis{position:absolute;inset:8%;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(2px);border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:all .5s}
+#eis b{font-size:36px}
+#eis span{font-size:9px;letter-spacing:3px}
+#loch{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:26%;height:26%;border-radius:50%;background:radial-gradient(circle,#000 0%,#000 55%,#5cf0ff 75%,transparent 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:all .5s}
+#loch.open{width:44%;height:44%}
+#loch span{font-size:8px;letter-spacing:2px;color:#fff}
+#loch b{color:#f0d080}
+button{background:#0a1420;color:#5cf0ff;border:1px solid rgba(92,240,255,.5);padding:10px 14px;border-radius:999px;cursor:pointer;font-family:inherit;letter-spacing:2px;margin:4px}
+button.on{background:#5cf0ff;color:#000}
+#txt{font-size:11px;line-height:1.8;min-height:70px;margin-top:12px}
+</style></head><body>
+<h1>WASSER ICE FÜR SICHT</h1>
+<div id="sub">GATE SICHT LOCH · WEISST DU · WASSER MACHT KLAR · ICE MACHT SICHT</div>
+<div id="stage"><div id="eis"><b>❄️</b><span>WASSER ICE</span></div><div id="loch"><b>◉</b><span>GATE SICHT</span></div></div>
+<div><button id="bKlar">KLAR</button><button id="bEis">EIS</button><button id="bLoch" class="on">LOCH AUF</button></div>
+<div id="txt"></div>
+<script>
+let eis=document.getElementById("eis");
+let loch=document.getElementById("loch");
+let txt=document.getElementById("txt");
+function render(m){
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+  if(m==="klar"){ document.getElementById("bKlar").classList.add("on"); eis.style.background="rgba(255,255,255,.05)"; loch.classList.remove("open"); txt.innerHTML="<b>KLAR = WASSER</b><br>Wasser ist klar<br>Sicht ist klar<br>Gate ist klar<br>Du siehst durch"; }
+  if(m==="eis"){ document.getElementById("bEis").classList.add("on"); eis.style.background="rgba(255,255,255,.5)"; loch.classList.remove("open"); txt.innerHTML="<b>EIS = SICHT GEFROREN</b><br>Ice ist gefroren<br>Sicht ist matt<br>Gate ist zu<br>Du siehst nur Eis"; }
+  if(m==="loch"){ document.getElementById("bLoch").classList.add("on"); eis.style.background="rgba(255,255,255,.15)"; loch.classList.add("open"); txt.innerHTML="<b>LOCH = GATE SICHT</b><br>Loch ist auf<br>Gate ist auf<br>Wasser Ice macht Sicht<br>Du siehst durch Loch<br>Weisst du"; }
+}
+document.getElementById("bKlar").onclick=()=>render("klar");
+document.getElementById("bEis").onclick=()=>render("eis");
+document.getElementById("bLoch").onclick=()=>render("loch");
+render("loch");
+</script>
+</body></html>
