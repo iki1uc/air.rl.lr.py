@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RUNTER HOCH · WURZELN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#02060a;color:#e8f0ff;font-family:Consolas,monospace;text-align:center;padding:14px}
+h1{font-size:16px;letter-spacing:6px;color:#4ade80}
+#sub{font-size:10px;letter-spacing:2px;color:#8aa0b0;margin:6px 0 12px}
+#stage{position:relative;width:min(70vh,92vw);height:min(70vh,92vw);margin:0 auto;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#0a2a4a 0%,#0a1420 38%,#2a1a0a 62%,#0a0a0a 100%);border:1px solid #222}
+#baum{position:absolute;left:50%;top:38%;transform:translateX(-50%);font-size:44px;z-index:2}
+#wurzel{position:absolute;left:50%;top:52%;transform:translateX(-50%);font-size:11px;line-height:1.2;color:#4ade80;white-space:pre;text-align:center}
+#krone{position:absolute;left:50%;top:8%;transform:translateX(-50%);font-size:11px;line-height:1.2;color:#4ade80;white-space:pre;text-align:center}
+button{background:#0a1420;color:#4ade80;border:1px solid rgba(74,222,128,.4);padding:10px 14px;border-radius:999px;cursor:pointer;font-family:inherit;letter-spacing:2px;margin:4px}
+button.on{background:#4ade80;color:#000}
+#txt{font-size:11px;line-height:1.8;min-height:70px;margin-top:12px}
+</style></head><body>
+<h1>RUNTER HOCH · WURZELN</h1>
+<div id="sub">WURZELN GEHEN RUNTER · WURZELN GEHEN HOCH · BEIDE ZUSAMMEN</div>
+<div id="stage"><div id="krone">🌿 🌿 🌿<br>🌿 HOCH 🌿<br>🌿 🌿 🌿</div><div id="baum">🌳</div><div id="wurzel">│<br>│ \\ / │<br>│  \\ │ /  │<br>│   \\│/   │<br>RUNTER</div></div>
+<div><button id="bRunter">RUNTER</button><button id="bHoch">HOCH</button><button id="bBeide" class="on">RUNTER HOCH</button></div>
+<div id="txt"></div>
+<script>
+let txt=document.getElementById("txt");
+let baum=document.getElementById("baum");
+let wurzel=document.getElementById("wurzel");
+let krone=document.getElementById("krone");
+function render(m){
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+  if(m==="runter"){ document.getElementById("bRunter").classList.add("on"); txt.innerHTML="<b>RUNTER = WURZELN</b><br>Wurzeln gehen runter<br>Tief in Erde<br>Tief in 9 99 999<br>Ohne Wurzeln kein Halt<br>Runter ist Anfang"; }
+  if(m==="hoch"){ document.getElementById("bHoch").classList.add("on"); txt.innerHTML="<b>HOCH = KRONE</b><br>Krone geht hoch<br>Hoch in Himmel<br>Hoch in Sonne<br>Ohne Krone kein Licht<br>Hoch ist Ziel"; }
+  if(m==="beide"){ document.getElementById("bBeide").classList.add("on"); txt.innerHTML="<b>RUNTER HOCH = WURZELN PLUS KRONE</b><br>Wurzeln runter plus Krone hoch gleich Baum<br>Baum steht<br>Baum hält<br>Scale plus Schleiernd plus Wurzeln<br>Runter hoch Mann"; }
+}
+let t=0;
+setInterval(()=>{ t++; let y=Math.sin(t*0.05)*8; baum.style.top=(38+y*0.3)+"%"; krone.style.top=(8+y*0.2)+"%"; wurzel.style.top=(52-y*0.2)+"%"; },80);
+document.getElementById("bRunter").onclick=()=>render("runter");
+document.getElementById("bHoch").onclick=()=>render("hoch");
+document.getElementById("bBeide").onclick=()=>render("beide");
+render("beide");
+</script>
+</body></html>
