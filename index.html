@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BESTE INDEX · ALLES WEISS · ALLES TUT · BEWUSST · MIRROR</title>
+<style>
+:root{--gold:#ffd700;--cyan:#00ccff;--green:#39ff88;--bg:#050507}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:#e8f0ff;font-family:Consolas,monospace}
+.kopf-zeile{position:sticky;top:0;z-index:9999;background:rgba(5,5,7,.92);backdrop-filter:blur(12px);border-bottom:3px solid var(--gold)}
+.kopf-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 18px}
+.kopf-brand{color:var(--gold);font-weight:900}
+.kopf-nav{display:flex;gap:8px;flex-wrap:wrap}
+.kopf-nav a{text-decoration:none;color:var(--cyan);border:1px solid #1a1a1a;padding:4px 10px;position:relative}
+.kopf-nav a.active{background:var(--gold);color:#000;font-weight:900;box-shadow:0 0 8px #ffd700}
+.kopf-nav a.active::before{content:"► ";}
+.kopf-state{color:var(--green);border:1px solid var(--green);padding:4px 8px;font-size:11px}
+main{padding:16px;text-align:center}
+h1{font-size:15px;letter-spacing:4px;color:var(--gold)}
+#mirror{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.mbox{border:1px solid #333;border-radius:10px;padding:12px;min-width:160px;text-align:left}
+.mbox b{color:var(--gold)}
+.mbox p{font-size:11px;line-height:1.7;color:#c8d8e8}
+#rooms{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+#rooms button{background:#111;color:#e8f0ff;border:1px solid #333;padding:10px 14px;border-radius:8px;cursor:pointer;font-family:inherit}
+#rooms button.on{background:var(--gold);color:#000}
+#info{font-size:11px;line-height:1.8;color:#c8d8e8}
+#bewusst{margin:12px auto;max-width:520px;border:1px solid var(--gold);border-radius:10px;padding:12px;font-size:11px;line-height:1.8;text-align:left}
+.end-zeile{margin-top:30px;padding:14px 18px;color:#8a8a8a;font-size:11px;border-top:3px solid;border-image:linear-gradient(90deg,#ffd700,#00ccff,#ff2d9a) 1}
+.end-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.back-top{color:#ffd700;text-decoration:none}
+button.act{background:#111;color:#ffd700;border:1px solid #ffd700;padding:8px 12px;border-radius:999px;cursor:pointer;font-family:inherit;margin:4px}
+</style></head><body>
+<header class="kopf-zeile"><div class="kopf-inner">
+<div class="kopf-brand">● NC.SUITE // BESTE INDEX // DU HIER</div>
+<nav class="kopf-nav"><a href="./9.html">9</a><a href="./99.html">99</a><a href="./999.html">999</a><a href="./PQ.html">PQ</a><a href="./ort.html">ORT</a><a href="./home.html">HOME</a><a href="./REAL_PC.html">REAL_PC</a></nav>
+<div class="kopf-state" id="kopf-state">● BRAIN.EYE.OPEN</div>
+</div></header>
+<main>
+<h1>BESTE INDEX · ALLES WEISS · ALLES TUT · BEWUSST · MIRROR</h1>
+<div id="mirror">
+<div class="mbox"><b>◉ WEISS</b><p>Alles weiß heißt: ROOMS da<br>TRI da<br>WURZELN da<br>9 99 999 da<br>Kein Wissen weg</p></div>
+<div class="mbox"><b>◉ TUT</b><p>Alles tut heißt: Kopf tut<br>Nav tut<br>Rooms tut<br>Uhr tut<br>State tut<br>Kein Tun weg</p></div>
+<div class="mbox"><b>◉ BEWUSST</b><p>Bewusst tut heißt: Nicht Auto<br>Nicht Zufall<br>Jeder Klick ist Urteil<br>Du klickst · Index tut</p></div>
+<div class="mbox"><b>◉ MIRROR</b><p>Mirror heißt: Links ist Rechts<br>Rechts ist Links<br>Du siehst dich<br>Index sieht dich</p></div>
+</div>
+<div id="rooms"></div>
+<div id="info">◉ ACTIVE NODE</div>
+<div id="bewusst"></div>
+<div><button class="act" onclick="bewusstTun('WEISS')">BEWUSST WEISS</button><button class="act" onclick="bewusstTun('TUT')">BEWUSST TUT</button><button class="act" onclick="bewusstTun('MIRROR')">BEWUSST MIRROR</button></div>
+</main>
+<footer class="end-zeile"><div class="end-inner"><div>© EVIG // 9→81 // BESTE INDEX</div><div>EL BURRO DOUBLE // MIRROR KLAR</div><div><span id="end-time"></span> // <a href="#top" class="back-top">↑ KOPF</a></div></div></footer>
+<script>
+(function(){
+  const ROOMS=[["111","BIOS"],["222","VERBUND"],["333","RECALL"],["444","PEAK"],["555","ABWEHR"],["666","ENERGIE"],["777","CO2"],["888","ATOM"],["999","BENCH"]];
+  const TRI=[["9","EVIG"],["99","EDIT TOR"],["999","NUTZ SYSTEM"]];
+  document.getElementById("rooms").innerHTML=ROOMS.map(function(r,i){return "<button data-room=\""+i+"\">"+r[0]+"</button>";}).join("");
+  let page=location.pathname.split("/").pop().toLowerCase();
+  if(!page||page===""||page==="index.html"){page="home.html";}
+  function nav(){ document.querySelectorAll(".kopf-nav a").forEach(function(a){ let h=a.getAttribute("href").replace("./","").toLowerCase(); a.classList.toggle("active", h===page); if(h===page){ a.dataset.node="ACTIVE NODE :: "+page.replace(".html","").toUpperCase(); } }); }
+  nav();
+  window.bewusstTun=function(w){
+    let el=document.getElementById("bewusst");
+    if(w==="WEISS"){ el.innerHTML="<b>BEWUSST WEISS</b><br>Index weiß ROOMS<br>Index weiß TRI<br>Index weiß WURZELN<br>Index weiß 9 99 999<br>Alles weiß · Nichts weg"; }
+    if(w==="TUT"){ el.innerHTML="<b>BEWUSST TUT</b><br>Index tut Kopf<br>Index tut Nav<br>Index tut Rooms<br>Index tut Uhr<br>Alles tut · Nichts weg"; }
+    if(w==="MIRROR"){ el.innerHTML="<b>BEWUSST MIRROR</b><br>Mirror links rechts<br>Mirror rechts links<br>Du siehst Index<br>Index sieht dich<br>Mirror ist bewusst"; }
+  };
+  document.addEventListener("click",function(e){ const b=e.target.closest("[data-room]"); if(!b){return;} document.querySelectorAll("[data-room]").forEach(function(x,i){ x.classList.toggle("on", i===Number(b.dataset.room)); }); const rm=ROOMS[Number(b.dataset.room)]; const tri=TRI[Math.floor(Number(b.dataset.room)/3)]; document.getElementById("info").textContent="◉ ACTIVE NODE "+rm[0]+" // "+rm[1]+" → "+tri[0]+" "+tri[1]+" · BEWUSST GEKLICHT"; });
+  function clock(){ document.getElementById("end-time").textContent=new Date().toLocaleTimeString(); }
+  clock(); setInterval(clock,1000);
+  window.bewusstTun("WEISS");
+})();
+</script>
+</body></html>
