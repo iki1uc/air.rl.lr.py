@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>sieh.js · SIE GLÜHEN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050507;color:#e8f0ff;font-family:Consolas,monospace;text-align:center;padding:16px}
+h1{font-size:22px;letter-spacing:8px;color:#ffd700;text-shadow:0 0 20px #ffd700}
+#sub{font-size:10px;letter-spacing:3px;color:#8aa0b0;margin:8px 0 14px}
+#stage{width:min(60vh,88vw);height:min(60vh,88vw);margin:0 auto;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #ffd700 30%, #ff2d9a 60%, #000 100%);box-shadow:0 0 80px #ffd700, 0 0 120px rgba(255,215,0,.5);display:flex;align-items:center;justify-content:center;flex-direction:column;animation:glow 2s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 60px #ffd700}50%{box-shadow:0 0 120px #ffd700, 0 0 160px #ff2d9a}}
+#stage b{font-size:48px}
+#stage span{font-size:10px;letter-spacing:3px;color:#000;font-weight:900}
+button{background:#111;color:#ffd700;border:1px solid #ffd700;padding:8px 12px;border-radius:999px;cursor:pointer;font-family:inherit;margin:4px}
+#txt{font-size:11px;line-height:1.8;min-height:70px;margin-top:12px}
+</style></head><body>
+<h1>SIEH.JS</h1>
+<div id="sub">NÖ · HAB ES SIEH.JS GENANNT · SIE GLÜHEN</div>
+<div id="stage"><b>👁️</b><span>SIEH</span><span>GLÜHEN</span></div>
+<div><button onclick="sieh('PENTA')">SIEH PENTA</button><button onclick="sieh('INDEX')">SIEH INDEX</button><button onclick="sieh('ALLE')">SIEH ALLE</button></div>
+<div id="txt"></div>
+<script type="module">
+import { Sieh } from "./sieh.js";
+let txt=document.getElementById("txt");
+window.sieh=function(w){
+  if(w==="ALLE"){ txt.innerHTML="<b>SIEH ALLE — SIE GLÜHEN</b><br>" + Sieh.alle().join("<br>"); }
+  else { txt.innerHTML="<b>"+Sieh.sehen(w)+"</b><br>"+Sieh.glow()+"<br>"+Sieh.penta(); }
+};
+window.sieh("PENTA");
+</script>
+</body></html>
