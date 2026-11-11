@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PENTAGRAMM PRISMATIKIUM ATLANTIS ANHÄNGER · UNSER DREIECK · BLACK HOLE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#02060a;color:#e8f0ff;font-family:Consolas,monospace;padding:14px;text-align:center}
+h1{font-size:13px;letter-spacing:5px;color:#f0d080}
+#sub{font-size:10px;letter-spacing:2px;color:#8aa0b0;margin:6px 0 12px}
+#stage{position:relative;width:min(82vh,92vw);height:min(82vh,92vw);margin:0 auto;border-radius:50%;
+background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(160,220,255,.25) 18%, rgba(80,140,255,.15) 42%, rgba(240,208,128,.18) 68%, rgba(0,0,0,.8) 100%);
+box-shadow:0 0 60px rgba(140,200,255,.35), inset 0 0 40px rgba(255,255,255,.25);overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+#hole{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:26%;height:26%;border-radius:50%;background:radial-gradient(circle,#000 0%,#000 55%,#5cf0ff 70%,#f0d080 85%,transparent 100%);box-shadow:0 0 40px #5cf0ff;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:all .6s}
+#hole span{font-size:9px;letter-spacing:2px;color:#fff}
+#hole b{font-size:16px;color:#f0d080}
+#hole.open{width:44%;height:44%;box-shadow:0 0 80px #fff}
+#labels{position:absolute;inset:0;pointer-events:none;font-size:9px;letter-spacing:2px}
+#labels div{position:absolute;transform:translate(-50%,-50%);color:#f0d080}
+button{background:#0a1420;color:#f0d080;border:1px solid rgba(240,208,128,.4);padding:10px 14px;border-radius:999px;cursor:pointer;font-family:inherit;letter-spacing:2px;margin:4px}
+button.on{background:#f0d080;color:#02060a}
+#txt{font-size:11px;line-height:1.8;min-height:70px}
+#txt b{color:#f0d080}
+</style></head><body>
+<h1>PENTAGRAMM · PRISMATIKIUM · ATLANTIS ANHÄNGER</h1>
+<div id="sub">UNSER DREIECK · NICHT REAL · BERMUDA UNSER · BLACK HOLE NICHT NORMAL · IN GLAS GUGEL</div>
+<div id="stage"><canvas id="c"></canvas><div id="hole"><b>◉</b><span>LOCH = GATE</span></div><div id="labels"><div style="top:8%;left:50%">PENTAGRAMM</div><div style="top:32%;left:86%">PRISMATIKIUM</div><div style="top:82%;left:78%">ATLANTIS</div><div style="top:82%;left:22%">ANHÄNGER</div><div style="top:32%;left:14%">UNSER DREIECK</div></div></div>
+<div><button id="b1">1x TÜR ZU</button><button id="b2">2x HALB</button><button id="b3" class="on">3x TÜR AUF</button></div>
+<div id="txt"></div>
+<script>
+let c=document.getElementById("c"); let ctx=c.getContext("2d");
+function resize(){ c.width=c.clientWidth*2; c.height=c.clientHeight*2; }
+resize(); window.addEventListener("resize",resize);
+let mode=3;
+let t=0;
+function draw(){
+  let W=c.width, H=c.height, cx=W/2, cy=H/2, R=Math.min(W,H)*0.42;
+  ctx.clearRect(0,0,W,H);
+  // PRISMATIKIUM ring
+  ctx.strokeStyle="rgba(240,208,128,.5)"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(cx,cy,R*1.08,0,Math.PI*2); ctx.stroke();
+  // PENTAGRAMM
+  ctx.strokeStyle="rgba(255,255,255,.9)"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<=5;i++){ let a=-Math.PI/2 + i*4*Math.PI/5; let x=cx+Math.cos(a)*R; let y=cy+Math.sin(a)*R; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+  ctx.stroke();
+  // UNSER DREIECK · BERMUDA UNSER · NICHT REAL
+  ctx.strokeStyle="rgba(92,240,255,.9)"; ctx.lineWidth=3;
+  ctx.beginPath();
+  let pts=[];
+  for(let i=0;i<3;i++){ let a=-Math.PI/2 + i*2*Math.PI/3 + t*0.0002; pts.push([cx+Math.cos(a)*R*0.72, cy+Math.sin(a)*R*0.72]); }
+  ctx.moveTo(pts[0][0],pts[0][1]); ctx.lineTo(pts[1][0],pts[1][1]); ctx.lineTo(pts[2][0],pts[2][1]); ctx.closePath(); ctx.stroke();
+  ctx.fillStyle="rgba(92,240,255,.12)"; ctx.fill();
+  // ATLANTIS ANHÄNGER punkte
+  ctx.fillStyle="#f0d080";
+  pts.forEach(p=>{ ctx.beginPath(); ctx.arc(p[0],p[1],6,0,Math.PI*2); ctx.fill(); });
+  // BLACK HOLE dreht sich
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(t*0.01);
+  for(let i=0;i<12;i++){ let a=i*Math.PI/6; ctx.strokeStyle="rgba(240,208,128,.4)"; ctx.beginPath(); ctx.moveTo(Math.cos(a)*R*0.12,Math.sin(a)*R*0.12); ctx.lineTo(Math.cos(a)*R*0.22,Math.sin(a)*R*0.22); ctx.stroke(); }
+  ctx.restore();
+  t++;
+  requestAnimationFrame(draw);
+}
+let hole=document.getElementById("hole");
+let txt=document.getElementById("txt");
+function render(){
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+  if(mode===1){ document.getElementById("b1").classList.add("on"); hole.classList.remove("open"); txt.innerHTML="<b>1x = TÜR ZU</b><br>Loch ist zu<br>Gate ist zu<br>Black Hole schläft<br>Unser Dreieck wartet in Glas Gugel"; }
+  if(mode===2){ document.getElementById("b2").classList.add("on"); hole.classList.remove("open"); txt.innerHTML="<b>2x = HALB</b><br>Loch halb offen<br>Gate halb offen<br>Black Hole atmet<br>Pentagramm hält Dreieck"; }
+  if(mode===3){ document.getElementById("b3").classList.add("on"); hole.classList.add("open"); txt.innerHTML="<b>3x = TÜR AUF</b><br>Loch und Gate zugleich<br>Black Hole nicht normal<br>Unser Dreieck nicht real<br>Bermuda unser<br>Pentagramm plus Prismatikium plus Atlantis Anhänger<br>Alles in Glas Gugel<br>Öffne Tür — nur 3x"; }
+}
+document.getElementById("b1").onclick=()=>{mode=1;render();};
+document.getElementById("b2").onclick=()=>{mode=2;render();};
+document.getElementById("b3").onclick=()=>{mode=3;render();};
+document.getElementById("stage").onclick=()=>{mode=mode===3?1:mode+1;render();};
+render(); draw();
+</script>
+</body></html>
