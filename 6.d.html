@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6D · DANN KANN MANN 6D</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050507;color:#e8f0ff;font-family:Consolas,monospace;text-align:center;padding:14px}
+h1{font-size:18px;letter-spacing:6px;color:#ffd700}
+#sub{font-size:10px;letter-spacing:2px;color:#8aa0b0;margin:6px 0 12px}
+#grid{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.box{border:1px solid #333;border-radius:10px;padding:12px;min-width:110px;text-align:left}
+.box b{color:#ffd700}
+.box p{font-size:11px;line-height:1.7;color:#c8d8e8}
+.box.on{border-color:#ffd700;background:#1a1500}
+button{background:#111;color:#ffd700;border:1px solid #ffd700;padding:8px 12px;border-radius:999px;cursor:pointer;font-family:inherit;margin:4px}
+button.on{background:#ffd700;color:#000}
+#txt{font-size:11px;line-height:1.8;min-height:70px;margin-top:12px}
+</style></head><body>
+<h1>6D</h1>
+<div id="sub">DANN KANN MANN 6D · ALLES NUTZEN · INDEX HTML PY JS MD PENTA</div>
+<div id="grid">
+<div class="box" id="d1"><b>1D</b><p>Linie<br>Vor Zurück<br>9</p></div>
+<div class="box" id="d2"><b>2D</b><p>Fläche<br>Links Rechts<br>99</p></div>
+<div class="box" id="d3"><b>3D</b><p>Raum<br>Hoch Runter<br>999</p></div>
+<div class="box" id="d4"><b>4D</b><p>Zeit<br>Vor Zurück<br>Time Tunnel</p></div>
+<div class="box" id="d5"><b>5D</b><p>Spiegel<br>Mirror<br>U I</p></div>
+<div class="box" id="d6"><b>6D</b><p>Penta<br>Alles<br>Schön</p></div>
+</div>
+<div><button id="bAlle" class="on">ALLE 6D</button><button id="b1">NUR 1D</button><button id="b6">NUR 6D</button></div>
+<div id="txt"></div>
+<script>
+let txt=document.getElementById("txt");
+function render(m){
+  document.querySelectorAll(".box").forEach(b=>b.classList.remove("on"));
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+  if(m==="alle"){ document.getElementById("bAlle").classList.add("on"); document.querySelectorAll(".box").forEach(b=>b.classList.add("on")); txt.innerHTML="<b>ALLE 6D</b><br>1D Linie plus 2D Fläche plus 3D Raum plus 4D Zeit plus 5D Spiegel plus 6D Penta<br>Alles nutzen heißt 6D<br>Dann kann man 6D Mann"; }
+  if(m==="1d"){ document.getElementById("b1").classList.add("on"); document.getElementById("d1").classList.add("on"); txt.innerHTML="<b>NUR 1D</b><br>Nur Linie ist halb<br>1D allein ist nicht 6D"; }
+  if(m==="6d"){ document.getElementById("b6").classList.add("on"); document.getElementById("d6").classList.add("on"); txt.innerHTML="<b>NUR 6D</b><br>Nur Penta ist halb<br>6D braucht 1D bis 5D dazu<br>Alle 6D ist voll"; }
+}
+document.getElementById("bAlle").onclick=()=>render("alle");
+document.getElementById("b1").onclick=()=>render("1d");
+document.getElementById("b6").onclick=()=>render("6d");
+render("alle");
+</script>
+</body></html>
