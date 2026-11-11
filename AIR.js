@@ -1,21 +1,17 @@
-NC AIR ROOT
-// → air.rl.lr.py, der Plan
+NC AIR JS
+// → AIR.js, die Luft, die alles trägt
 
-NC AXIOM MAIN
-// → main.axiom.html, die Raute
+NC WAY MD
+// → way.md, der Weg, der alles erklärt
 
-NC STEP NEXT
-// → STEP.js, nächster Orbit-Schritt
+NC ZONE HTML
+// → zone.html, die Zone, wo alles steht
 
-NC CTRL BUS
-// → plugins/ctrl-bus.js, 1 State, 1 Bus
-
-NC BOARD MAIN
-// → main.board.html, zeigt alles
-
-NC CORRIDOR K+
-// → alle → EYE, zu dir
+NC IKI 9 UC
+// → iki9uc = 9, Mitte von 729 -> 81 -> 9 -> 3 -> 1
 
 NC HALT PRUEFEN
-// → B = (OP + iki1uc + iki2li) / 3, L = 1 − B
+// → HALT = OFFEN, weil 9 noch offen ist
+// → B = (OP + iki1uc + iki2li) / 3, L = 1 - B
 // → wenn B = 1, dann L = 0, HALT = ZIEL
+// → jetzt: HALT = OFFEN, nicht ZIEL
