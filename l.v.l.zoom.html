@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>PENTAGRAM FÜHRUNG AUTO + ZOOM</title>
+<style>body{margin:0;background:#03050c;color:#e8ecf1;font-family:"Courier New",monospace;padding:16px;text-align:center}
+h1{font-size:16px;letter-spacing:2px}.sub{font-size:11px;color:#888}
+.law{border:1px solid #fbbf24;background:#000;padding:8px;font-size:11px;border-radius:6px;margin:10px 0;text-align:left}
+.stage{position:relative;height:300px;background:#000;border:1px solid #222;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.penta{font-size:140px;line-height:1;transition:transform .6s, filter .6s;color:#fbbf24;text-shadow:0 0 40px #fbbf24}
+.penta.zoom{transform:scale(1.8)}
+.penta.klein{transform:scale(.7)}
+button{font-family:inherit;background:#111;color:#fbbf24;border:1px solid #fbbf24;padding:8px 12px;border-radius:4px;cursor:pointer;font-weight:bold;margin:4px}
+button:hover{background:#fbbf24;color:#000}
+.log{background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;line-height:1.6;max-height:140px;overflow-y:auto;text-align:left;margin-top:12px}
+</style></head><body>
+<h1>PENTAGRAM FÜHRUNG AUTO + ZOOM</h1><div class="sub">Pentagram führt. Auto. Und Zoom. Nicht von Hand.</div>
+<div class="law"><b>FÜHRUNG:</b> Pentagram sagt wo lang. Auto fährt. Zoom zeigt groß / klein. <b>0 = Nullpunkt · 40 = HOME · 41 = MITTE · 360 = RESPO</b></div>
+<div class="stage"><div class="penta" id="penta">⛤</div></div>
+<div><button id="btnAuto">FÜHRUNG AUTO ▶</button> <button id="btnZoom">ZOOM +</button> <button id="btnKlein">ZOOM -</button> <button id="btnReset">RESET</button></div>
+<div class="log" id="log"></div>
+<script>
+let penta=document.getElementById("penta"), logEl=document.getElementById("log"), zoom=1;
+function log(t,c="#e8ecf1"){let d=document.createElement("div");d.style.color=c;d.textContent="> "+t;logEl.appendChild(d);logEl.scrollTop=logEl.scrollHeight}
+function setZoom(z){zoom=z; penta.style.transform=`scale(${zoom})`; log(`ZOOM: ${zoom.toFixed(1)}x — Pentagram ${zoom>1?"groß":"klein"} — Führung sieht ${zoom>1?"nah":"weit"}.`,"#fbbf24")}
+document.getElementById("btnZoom").onclick=()=>setZoom(Math.min(2.5, zoom+0.3));
+document.getElementById("btnKlein").onclick=()=>setZoom(Math.max(0.5, zoom-0.3));
+document.getElementById("btnReset").onclick=()=>setZoom(1);
+let auto=false;
+document.getElementById("btnAuto").onclick=()=>{
+  if(auto){log("FÜHRUNG AUTO AUS.","#888"); auto=false; return}
+  auto=true; log("FÜHRUNG AUTO AN — Pentagram führt von allein.","#4ade80");
+  let ecken=["OBEN","RECHTS OBEN","RECHTS UNTEN","LINKS UNTEN","LINKS OBEN"];
+  let i=0; let iv=setInterval(()=>{
+    if(!auto){clearInterval(iv);return}
+    if(i>=ecken.length){clearInterval(iv); auto=false; log("FÜHRUNG AUTO fertig. Alle 5 Ecken geführt. HALT = ZIEL.","#fbbf24"); setZoom(1); return}
+    log(`FÜHRUNG: Ecke ${i+1}/5 — ${ecken[i]} — Pentagram führt.`, "#4ade80");
+    setZoom(1.2+Math.random()*0.6);
+    i++;
+  },900);
+};
+log("PENTAGRAM FÜHRUNG geladen. Auto wartet.","#fbbf24");
+</script></body></html>
