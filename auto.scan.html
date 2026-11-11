@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>◉ MANA AURA ZEN · HBT CODEC · auto.scan.fokus</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#02060a;overflow:hidden}
+  body{font-family:Consolas,monospace;color:#c8d8e8}
+  #stage{position:fixed;inset:0}
+  canvas{display:block;width:100%;height:100%}
+  .label{position:fixed;font-size:9px;letter-spacing:3px;color:#5a7288;text-transform:uppercase;pointer-events:none;user-select:none}
+  #tN{top:14px;left:50%;transform:translateX(-50%)}
+  #tE{top:50%;right:14px;transform:translateY(-50%)}
+  #tS{bottom:14px;left:50%;transform:translateX(-50%)}
+  #tW{top:50%;left:14px;transform:translateY(-50%)}
+  #center-label{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;letter-spacing:6px;color:rgba(240,208,128,0.7);text-transform:uppercase;pointer-events:none;user-select:none;text-shadow:0 0 20px rgba(240,208,128,0.4)}
+  #boot{position:fixed;inset:0;background:#000;z-index:100;display:flex;align-items:center;justify-content:center;transition:opacity 1.4s ease}
+  #boot.done{opacity:0;pointer-events:none}
+  #boot .m{font-size:11px;letter-spacing:8px;color:#f0d080;opacity:0.6}
+  #toggleTip{position:fixed;right:10px;bottom:10px;z-index:10000;background:#111;color:#f0d080;border:1px solid rgba(240,208,128,.4);padding:8px 10px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:11px}
+</style></head><body>
+<div id="stage"><canvas id="c"></canvas></div>
+<div class="label" id="tN">IX · KERN</div>
+<div class="label" id="tE">VII · ACHSEN</div>
+<div class="label" id="tS">VI · RESPO</div>
+<div class="label" id="tW">◉ · QUELLE</div>
+<div id="center-label">◉</div>
+<div id="boot"><div class="m">◉</div></div>
+<button id="toggleTip">TOOLTIP AN / AUS</button>
+<script>
+"use strict";
+const c = document.getElementById("c");
+const ctx = c.getContext("2d");
+let W, H, cx, cy, R;
+const COLORS = { H:"#8cf0d0", B:"#f0d080", T:"#ff66c8" };
+// HBT CODEC
+const HBTCodec = {
+  H:40, B:40, T:40, Q:40, F:1, D:3, pool:[],
+  encode(h,b,t){ this.H=h; this.B=b; this.T=t; this.pool=[h,b,t]; this.Q=(h+b+t)/3; this.F=this.Q/40; this.D=3; return this; },
+  primatieren(){ return this.encode(40,40,40); },
+  pentagrammCodec(){ const e=["OBEN","RECHTS OBEN","RECHTS UNTEN","LINKS UNTEN","LINKS OBEN"]; return e.map((x,i)=>{ const r=this.encode(i+1,5-i,i*90); return {ecke:x,H:r.H,B:r.B,T:r.T,Q:r.Q,F:r.F}; }); }
+};
+HBTCodec.primatieren();
+const MANA = { name:"MANA", color:"#ff66c8", phase:0, val:0.5 };
+const AURA = { name:"AURA", color:"#f0d080", phase:Math.PI*2/3, val:0.7 };
+const ZEN  = { name:"ZEN",  color:"#8cf0d0", phase:Math.PI*4/3, val:0.9 };
+const DIRS = [
+  { key:"N", angle:-Math.PI/2, count:9, color:"#5cf0ff", speed:0.00013, radius:0.95, r:0 },
+  { key:"E", angle:0, count:7, color:"#b388ff", speed:0.00017, radius:0.82, r:0 },
+  { key:"S", angle:Math.PI/2, count:6, color:"#39ff88", speed:0.00021, radius:0.95, r:0 },
+  { key:"W", angle:Math.PI, count:1, color:"#f0d080", speed:0.00009, radius:0.82, r:0 }
+];
+function updateDirections(){ DIRS.forEach(d=>{ d.r = R * d.radius; }); }
+function resize(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  c.width = W*dpr; c.height = H*dpr; c.style.width = W+"px"; c.style.height = H+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  cx = W/2; cy = H/2; R = Math.min(W,H)*0.36;
+  updateDirections();
+}
+resize();
+window.addEventListener("resize", resize);
+const SYM = ["☿","☉","☽","♀","♂","♃","♄","🜁","🜂","🜃","🜄","🜍","🜔","⊙","⊕"];
+const S = { t:0, breath:0, centerPulse:0, particles:[] };
+let lastSpawn = 0;
+function spawnParticle(){
+  const a = Math.random()*Math.PI*2; const r = R*1.2;
+  S.particles.push({ x:cx+Math.cos(a)*r, y:cy+Math.sin(a)*r, vx:-Math.cos(a)*(0.4+Math.random()*0.6), vy:-Math.sin(a)*(0.4+Math.random()*0.6), life:1, size:0.8+Math.random()*1.8, color: Math.random()<0.5?MANA.color:Math.random()<0.6?AURA.color:ZEN.color });
+}
+// HUD
+const hud = document.createElement("div");
+hud.style.cssText = "position:fixed;top:10px;left:10px;padding:10px;border:1px solid rgba(240,208,128,.15);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);font-size:11px;line-height:1.4;color:#f0d080;z-index:9999;pointer-events:none;";
+document.body.appendChild(hud);
+// TOOLTIP
+const tooltip = document.createElement("div");
+tooltip.style.cssText = "position:fixed;right:10px;top:10px;padding:8px 10px;background:rgba(0,0,0,.45);border:1px solid rgba(240,208,128,.15);backdrop-filter:blur(8px);font-size:10px;line-height:1.4;color:#c8d8e8;border-radius:8px;z-index:9999;pointer-events:none;";
+document.body.appendChild(tooltip);
+let tipOn = true;
+document.getElementById("toggleTip").onclick = ()=>{ tipOn=!tipOn; tooltip.style.display = tipOn?"block":"none"; };
+// MAUS steuert Codec
+window.addEventListener("mousemove", e=>{
+  const nx = e.clientX / W; const ny = e.clientY / H;
+  MANA.val = nx; AURA.val = ny; ZEN.val = (nx+ny)*0.5;
+});
+function updateCodec(){
+  // H = Halt = ZEN · B = Basis = AURA · T = Tiefe = MANA
+  HBTCodec.encode(ZEN.val*100, AURA.val*100, MANA.val*100);
+}
+function draw(){
+  updateCodec();
+  ctx.fillStyle = "#02060a"; ctx.fillRect(0,0,W,H);
+  const b = 0.5 + Math.sin(S.t*0.0006)*0.5; S.breath = b;
+  for(let i=0;i<60;i++){ const x=(i*137.5)%W; const y=(i*91.3)%H; const a=0.02+Math.sin(S.t*0.0008+i)*0.02; ctx.fillStyle=`rgba(120,200,255,${a})`; ctx.fillRect(x,y,1,1); }
+  const auraRadius = R * (0.6 + HBTCodec.Q/100);
+  const drawAura = (o, baseR, alpha)=>{
+    const ph = S.t*0.001 + o.phase;
+    const rr = baseR * (1 + Math.sin(ph)*0.08);
+    const g = ctx.createRadialGradient(cx,cy,rr*0.2,cx,cy,rr);
+    g.addColorStop(0, o.color+"00");
+    g.addColorStop(0.7, o.color+Math.floor(alpha*40).toString(16).padStart(2,"0"));
+    g.addColorStop(1, o.color+"00");
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.fill();
+  };
+  drawAura(MANA, auraRadius*1.0, 0.35);
+  drawAura(AURA, auraRadius*1.15, 0.28);
+  drawAura(ZEN, auraRadius*1.30, 0.22);
+  DIRS.forEach((d,di)=>{
+    ctx.strokeStyle=d.color+"22"; ctx.lineWidth=0.6; ctx.beginPath(); ctx.arc(cx,cy,d.r,0,Math.PI*2); ctx.stroke();
+    for(let i=0;i<d.count;i++){
+      const baseA=d.angle; const spread=(i/Math.max(1,d.count-1)-0.5)*(Math.PI*0.55);
+      const a=baseA+spread+S.t*d.speed*6;
+      const px=cx+Math.cos(a)*d.r; const py=cy+Math.sin(a)*d.r;
+      const ph=S.t*0.002+i*0.7+di*1.3; const pulse=0.5+Math.sin(ph)*0.5; const size=3.5+pulse*4;
+      ctx.shadowColor=d.color; ctx.shadowBlur=10*pulse; ctx.fillStyle=d.color; ctx.globalAlpha=0.55+pulse*0.4;
+      ctx.beginPath(); ctx.arc(px,py,size,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0; ctx.globalAlpha=1;
+      if(d.count<=9 && i===Math.floor(d.count/2)){ ctx.font="11px serif"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle=d.color+"cc"; const s=SYM[(di*4+i)%SYM.length]; ctx.fillText(s,px,py-d.r*0.12-18); }
+    }
+    ctx.strokeStyle=d.color+"44"; ctx.lineWidth=0.8; ctx.beginPath(); ctx.moveTo(cx+Math.cos(d.angle)*30, cy+Math.sin(d.angle)*30); ctx.lineTo(cx+Math.cos(d.angle)*d.r, cy+Math.sin(d.angle)*d.r); ctx.stroke();
+  });
+  ctx.strokeStyle="rgba(240,208,128,0.08)"; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(cx-R*1.3,cy); ctx.lineTo(cx+R*1.3,cy); ctx.moveTo(cx,cy-R*1.3); ctx.lineTo(cx,cy+R*1.3); ctx.stroke();
+  const cp = HBTCodec.F; S.centerPulse=cp;
+  const coreR = 8 + HBTCodec.F*12 + Math.sin(S.t*0.01)*2;
+  const cg = ctx.createRadialGradient(cx,cy,0,cx,cy,coreR*4);
+  cg.addColorStop(0,"rgba(255,255,255,0.95)"); cg.addColorStop(0.3,"rgba(240,208,128,0.7)"); cg.addColorStop(0.7,"rgba(179,136,255,0.2)"); cg.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,coreR*4,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="rgba(255,255,255,0.95)"; ctx.beginPath(); ctx.arc(cx,cy,coreR*0.6,0,Math.PI*2); ctx.fill();
+  for(let i=0;i<DIRS.length;i++){ const a=DIRS[i]; const b2=DIRS[(i+1)%DIRS.length]; const ax=cx+Math.cos(a.angle)*a.r; const ay=cy+Math.sin(a.angle)*a.r; const bx=cx+Math.cos(b2.angle)*b2.r; const by=cy+Math.sin(b2.angle)*b2.r; const tt=(S.t*0.0004+i*0.25)%1; const px=ax+(bx-ax)*tt; const py=ay+(by-ay)*tt; ctx.fillStyle=a.color+"88"; ctx.beginPath(); ctx.arc(px,py,2.5,0,Math.PI*2); ctx.fill(); }
+  const particleLimit = Math.floor(10 + HBTCodec.Q);
+  if(performance.now()-lastSpawn>60 && S.particles.length<particleLimit){ spawnParticle(); lastSpawn=performance.now(); }
+  S.particles = S.particles.filter(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.life-=0.004; if(p.life<=0) return false;
+    ctx.globalAlpha=p.life*0.7; ctx.fillStyle=p.color; ctx.shadowColor=p.color; ctx.shadowBlur=8;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0; ctx.globalAlpha=1; return true;
+  });
+  const qColor = HBTCodec.Q<33?"#39ff88":HBTCodec.Q<66?"#f0d080":"#ff66c8";
+  const fColor = HBTCodec.F<1?"#5cf0ff":HBTCodec.F<2?"#f0d080":"#ff66c8";
+  hud.innerHTML = `◉ HBT CODEC<br><br>H : ${HBTCodec.H.toFixed(2)}<br>B : ${HBTCodec.B.toFixed(2)}<br>T : ${HBTCodec.T.toFixed(2)}<hr style="border-color:#333"><span style="color:${qColor}">Q : ${HBTCodec.Q.toFixed(2)}</span><br><span style="color:${fColor}">F : ${HBTCodec.F.toFixed(3)}</span><br>D : ${HBTCodec.D}<hr style="border-color:#333"><b>LEGEND</b><br><br>Q = QUANT<br>Nutzung des Pools<br>Mittelwert aus H+B+T<br><br>F = FAKTOR<br>Q / HOME<br>HOME = 40<br><br>D = DIMENSION<br>aktive Ebenen<br>H · B · T = 3<hr style="border-color:#333">POOL<br>${HBTCodec.pool.map(v=>v.toFixed(1)).join(" · ")}`;
+  tooltip.innerHTML = `<b>◉ HBT</b><br><br><span style="color:${COLORS.H}">● H ${HBTCodec.H.toFixed(1)}</span> Halt<br><span style="color:${COLORS.B}">● B ${HBTCodec.B.toFixed(1)}</span> Basis<br><span style="color:${COLORS.T}">● T ${HBTCodec.T.toFixed(1)}</span> Tiefe<hr style="border-color:#222">Q ${HBTCodec.Q.toFixed(1)} Quant<br>F ${HBTCodec.F.toFixed(2)} Faktor<br>D ${HBTCodec.D} Dimension`;
+  S.t++;
+  requestAnimationFrame(draw);
+}
+setTimeout(()=>{ document.getElementById("boot").classList.add("done"); }, 600);
+draw();
+</script>
+</body></html>
