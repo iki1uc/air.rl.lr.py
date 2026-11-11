@@ -1,63 +1,65 @@
 <!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEU KONSTELLIERT · SPIEGEL · PENTAGRAMM REIN GEQUETSCHT</title>
+<title>penta.html · SO IST ER SCHÖN</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#050507;color:#e8f0ff;font-family:Consolas,monospace;text-align:center;padding:14px}
-h1{font-size:14px;letter-spacing:4px;color:#ffd700}
-#sub{font-size:10px;letter-spacing:2px;color:#8aa0b0;margin:6px 0 12px}
-#stage{position:relative;width:min(72vh,92vw);height:min(72vh,92vw);margin:0 auto;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(92,240,255,.25) 18%, rgba(80,140,255,.15) 42%, rgba(240,208,128,.18) 68%, rgba(0,0,0,.8) 100%);box-shadow:0 0 60px rgba(92,240,255,.4)}
+h1{font-size:18px;letter-spacing:8px;color:#ffd700}
+#sub{font-size:10px;letter-spacing:3px;color:#8aa0b0;margin:6px 0 12px}
+#stage{position:relative;width:min(74vh,92vw);height:min(74vh,92vw);margin:0 auto;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(92,240,255,.25) 18%, rgba(80,140,255,.15) 42%, rgba(255,45,154,.12) 68%, rgba(0,0,0,.85) 100%);box-shadow:0 0 80px rgba(255,215,0,.5), inset 0 0 50px rgba(255,255,255,.25)}
 canvas{position:absolute;inset:0;width:100%;height:100%}
-#quetsch{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;line-height:1.6;color:#ffd700;background:rgba(0,0,0,.6);border:1px solid #ffd700;border-radius:10px;padding:8px 10px;z-index:5}
+#mitte{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;z-index:5}
+#mitte b{font-size:36px;color:#ffd700;text-shadow:0 0 20px #ffd700}
+#mitte span{font-size:9px;letter-spacing:3px;color:#fff;display:block;margin-top:4px}
+#labels{position:absolute;inset:0;pointer-events:none;font-size:9px;letter-spacing:2px;color:#ffd700}
+#labels div{position:absolute;transform:translate(-50%,-50%)}
 button{background:#111;color:#ffd700;border:1px solid #ffd700;padding:8px 12px;border-radius:999px;cursor:pointer;font-family:inherit;margin:4px}
 button.on{background:#ffd700;color:#000}
-#txt{font-size:11px;line-height:1.8;min-height:70px;margin-top:12px}
+#txt{font-size:11px;line-height:1.8;min-height:60px;margin-top:12px}
 </style></head><body>
-<h1>NEU KONSTELLIERT</h1>
-<div id="sub">SPIEGEL GENOMMEN · PENTAGRAMM REIN GEQUETSCHT · ALLES NEU</div>
-<div id="stage"><canvas id="c"></canvas><div id="quetsch">SPIEGEL<br>PENTAGRAMM<br>REIN GEQUETSCHT</div></div>
-<div><button id="bSpiegel" class="on">SPIEGEL</button><button id="bPenta">PENTAGRAMM</button><button id="bBeide">BEIDE GEQUETSCHT</button></div>
+<h1>PENTA.HTML</h1>
+<div id="sub">SO IST ER SCHÖN · ANSTÄNDIG · NICHT OFFEN · NICHT ZU VIEL</div>
+<div id="stage"><canvas id="c"></canvas><div id="mitte"><b>◉</b><span>PENTA</span><span>SCHÖN</span></div><div id="labels"><div style="top:7%;left:50%">OBEN</div><div style="top:38%;left:88%">RECHTS OBEN</div><div style="top:82%;left:76%">RECHTS UNTEN</div><div style="top:82%;left:24%">LINKS UNTEN</div><div style="top:38%;left:12%">LINKS OBEN</div></div></div>
+<div><button id="bSchon" class="on">SCHÖN</button><button id="bSpiegel">SPIEGEL</button><button id="bGold">GOLD</button></div>
 <div id="txt"></div>
 <script>
 let c=document.getElementById("c"); let ctx=c.getContext("2d");
 function resize(){ c.width=c.clientWidth*2; c.height=c.clientHeight*2; }
 resize(); window.addEventListener("resize",resize);
-let mode="beide"; let t=0;
+let mode="schon"; let t=0;
 function draw(){
-  let W=c.width,H=c.height,cx=W/2,cy=H/2,R=Math.min(W,H)*0.42;
+  let W=c.width,H=c.height,cx=W/2,cy=H/2,R=Math.min(W,H)*0.40;
   ctx.clearRect(0,0,W,H);
-  if(mode==="spiegel"||mode==="beide"){
-    // SPIEGEL = Linie Mitte · links rechts vertauscht
-    ctx.strokeStyle="rgba(255,255,255,.8)"; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
-    ctx.fillStyle="rgba(255,255,255,.15)"; ctx.fillRect(cx-R,cy-R,R,2*R);
-    ctx.fillStyle="rgba(92,240,255,.15)"; ctx.fillRect(cx,cy-R,R,2*R);
-    ctx.fillStyle="#fff"; ctx.font="22px Consolas"; ctx.textAlign="center";
-    ctx.fillText("U",cx-R*0.5,cy); ctx.fillText("I",cx+R*0.5,cy);
+  // Ring Gold
+  ctx.strokeStyle="rgba(255,215,0,.6)"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(cx,cy,R*1.12,0,Math.PI*2); ctx.stroke();
+  // Penta schön
+  ctx.strokeStyle="#ffd700"; ctx.lineWidth=3; ctx.shadowColor="#ffd700"; ctx.shadowBlur=18;
+  ctx.beginPath();
+  for(let i=0;i<=5;i++){ let a=-Math.PI/2+i*4*Math.PI/5+t*0.001; let x=cx+Math.cos(a)*R; let y=cy+Math.sin(a)*R; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+  ctx.stroke(); ctx.shadowBlur=0;
+  // Ecken Punkte
+  for(let i=0;i<5;i++){ let a=-Math.PI/2+i*4*Math.PI/5+t*0.001; let x=cx+Math.cos(a)*R; let y=cy+Math.sin(a)*R; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2); ctx.fill(); ctx.fillStyle="#ffd700"; ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill(); }
+  if(mode==="spiegel"){
+    ctx.strokeStyle="rgba(255,255,255,.6)"; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(cx,cy-R*1.2); ctx.lineTo(cx,cy+R*1.2); ctx.stroke();
   }
-  if(mode==="penta"||mode==="beide"){
-    // PENTAGRAMM REIN GEQUETSCHT = kleiner als Spiegel · Mitte
-    let R2=R*0.55;
-    ctx.strokeStyle="#ffd700"; ctx.lineWidth=3;
-    ctx.beginPath();
-    for(let i=0;i<=5;i++){ let a=-Math.PI/2+i*4*Math.PI/5+t*0.002; let x=cx+Math.cos(a)*R2; let y=cy+Math.sin(a)*R2; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
-    ctx.stroke();
-    ctx.strokeStyle="rgba(255,215,0,.4)"; ctx.beginPath(); ctx.arc(cx,cy,R2,0,Math.PI*2); ctx.stroke();
+  if(mode==="gold"){
+    ctx.fillStyle="rgba(255,215,0,.08)"; ctx.beginPath(); ctx.arc(cx,cy,R*1.05,0,Math.PI*2); ctx.fill();
   }
   t++; requestAnimationFrame(draw);
 }
 let txt=document.getElementById("txt");
 function render(m){
-  mode=m;
-  document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
-  if(m==="spiegel"){ document.getElementById("bSpiegel").classList.add("on"); txt.innerHTML="<b> NUR SPIEGEL </b><br>Spiegel genommen<br>Links ist Rechts<br>Rechts ist Links<br>Pentagramm noch draussen"; }
-  if(m==="penta"){ document.getElementById("bPenta").classList.add("on"); txt.innerHTML="<b> NUR PENTAGRAMM </b><br>Pentagramm allein<br>Ohne Spiegel<br>Ohne Quetsch<br>Allein ist halb"; }
-  if(m==="beide"){ document.getElementById("bBeide").classList.add("on"); txt.innerHTML="<b> BEIDE GEQUETSCHT </b><br>Spiegel genommen<br>Pentagramm rein gequetscht<br>Pentagramm kleiner als Spiegel<br>Pentagramm in Mitte<br>Alles neu konstelliert<br>Alles in Glas Gugel"; }
+  mode=m; document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+  if(m==="schon"){ document.getElementById("bSchon").classList.add("on"); txt.innerHTML="<b>SCHÖN</b><br>Penta so ist er schön<br>Anständig<br>Gold Ring<br>Weisse Ecken<br>Gold Mitte"; }
+  if(m==="spiegel"){ document.getElementById("bSpiegel").classList.add("on"); txt.innerHTML="<b>SPIEGEL</b><br>Spiegel Mitte<br>Links ist Rechts<br>Penta bleibt schön<br>Spiegel macht doppelt"; }
+  if(m==="gold"){ document.getElementById("bGold").classList.add("on"); txt.innerHTML="<b>GOLD</b><br>Gold ist schön<br>Gold ist Haltung<br>Gold ist nicht offen<br>Gold ist anständig"; }
 }
+document.getElementById("bSchon").onclick=()=>render("schon");
 document.getElementById("bSpiegel").onclick=()=>render("spiegel");
-document.getElementById("bPenta").onclick=()=>render("penta");
-document.getElementById("bBeide").onclick=()=>render("beide");
-render("beide"); draw();
+document.getElementById("bGold").onclick=()=>render("gold");
+render("schon"); draw();
 </script>
 </body></html>
