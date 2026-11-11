@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>MIRROR EYE · Open Closed 2 · Doo Do Shuffle</title>
+<style>body{margin:0;background:#03050c;color:#e8ecf1;font-family:"Courier New",monospace;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh}
+.eye{width:140px;height:140px;border-radius:50%;border:2px solid #888;display:flex;align-items:center;justify-content:center;font-size:54px;transition:all .3s}
+.eye.open{border-color:#4ade80;box-shadow:0 0 40px rgba(74,222,128,.5);color:#4ade80}
+.eye.closed{border-color:#333;box-shadow:none;color:#333;transform:scaleY(.15)}
+.log{margin-top:16px;font-size:13px;line-height:1.6;background:#000;border:1px solid #222;border-radius:8px;padding:12px;width:360px;max-height:200px;overflow-y:auto;text-align:left}
+button{font-family:inherit;background:#111;color:#4ade80;border:1px solid #4ade80;padding:8px 12px;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:10px}
+</style></head><body>
+<div class="eye open" id="eye">👁</div>
+<div style="font-size:11px;color:#888;margin-top:8px" id="status">MIRROR EYE: OPEN · 2 · DOO</div>
+<div class="log" id="log"></div>
+<button id="btn">DOO SHUFFLE ▶</button>
+<script>
+let eye=document.getElementById("eye"), logEl=document.getElementById("log"), st=document.getElementById("status");
+function log(t,c="#e8ecf1"){let d=document.createElement("div");d.style.color=c;d.textContent="> "+t;logEl.appendChild(d);logEl.scrollTop=logEl.scrollHeight}
+function dooShuffle(){
+  logEl.innerHTML="";
+  let pattern=["do","doo","do","doo do","do","doo","doo do doo","do"];
+  // shuffle, but only do and doo, no all do
+  pattern.sort(()=>Math.random()-.5);
+  let i=0;let iv=setInterval(()=>{
+    if(i>=pattern.length){clearInterval(iv);log("STOP EYE. Mirror Eye ok.","#fbbf24");return}
+    let p=pattern[i++]; let open=p.includes("doo");
+    eye.className="eye "+(open?"open":"closed"); eye.textContent=open?"👁":"◉";
+    st.textContent=`MIRROR EYE: ${open?"OPEN":"CLOSED"} · 2 · ${p.toUpperCase()}`;
+    log(`${open?"OPEN":"CLOSED"} 2 — ${p} — i doo, i do, i doo do doo`,"#4ade80");
+    log(`MIRROR: ${p} — u doo do doo, but do only do and doo 2`,"#888");
+  },450);
+}
+document.getElementById("btn").onclick=dooShuffle;
+log("MIRROR EYE ok. Stop Eye.","#fbbf24");log("Open Closed 2. But open and closed more 2.","#e8ecf1");log("I doo, i do, i doo do doo.","#4ade80");setTimeout(dooShuffle,800);
+</script></body></html>
