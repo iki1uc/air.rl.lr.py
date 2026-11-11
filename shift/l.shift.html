@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>SOL LSHIFT INDEX · Sol shiften</title>
+<style>body{margin:0;background:#03050c;color:#e8ecf1;font-family:"Courier New",monospace;padding:16px}
+h1{font-size:16px;letter-spacing:2px;margin:0}.sub{font-size:11px;color:#888;margin:4px 0 12px}
+.law{border:1px solid #fbbf24;background:#000;padding:8px;font-size:11px;border-radius:6px;margin-bottom:12px}
+.stage{position:relative;height:180px;background:#000;border:1px solid #222;border-radius:8px;overflow:hidden;margin-bottom:12px}
+.sol{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,#FFE45C,#FF8A00);box-shadow:0 0 60px #FFB300;display:flex;align-items:center;justify-content:center;font-size:34px;transition:left .5s}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;line-height:1.5;min-height:90px}
+button{font-family:inherit;background:#111;color:#fbbf24;border:1px solid #fbbf24;padding:8px 12px;border-radius:4px;cursor:pointer;font-weight:bold}
+button:hover{background:#fbbf24;color:#000}
+.log{background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;line-height:1.6;max-height:140px;overflow-y:auto;margin-top:12px}
+</style></head><body>
+<h1>SOL LSHIFT INDEX · Sol shiften</h1><div class="sub">Sol = Sonne. LShift = nach links shiften. Index shiften, nicht fest.</div>
+<div class="law"><b>GESETZ:</b> SOL shiften = LShift. Index shiften = Sol bewegt sich links. Aber Sol bleibt Sol. <b>0 = Nullpunkt · 40 = HOME · 41 = MITTE · 360 = RESPO</b></div>
+<div class="stage"><div class="sol" id="sol">☀️</div></div>
+<div class="grid"><div class="card"><b style="color:#fbbf24">SOL · LSHIFT</b><br>Sol nach links.<br>Shift = << 1<br>Sol bleibt Sol.</div><div class="card"><b style="color:#4ade80">INDEX · LSHIFT</b><br>Index nach links.<br>ROOT → STAGE → SOL<br>Alles shiften.</div><div class="card"><b style="color:#4DA3FF">SHIFT · WERT</b><br>Shift-Wert: <span id="shiftVal">0</span><br>Pos: <span id="posVal">50%</span><br>Sol: <span id="solVal">DA</span></div></div>
+<div style="margin-top:12px"><button id="btnL">SOL LSHIFT ◀</button> <button id="btnR">SOL RSHIFT ▶</button> <button id="btnReset">SOL RESET ●</button> <button id="btnAuto">SOL AUTO SHIFT ▶</button></div>
+<div class="log" id="log"></div>
+<script>
+let shift=0, sol=document.getElementById("sol");
+function log(t,c="#e8ecf1"){let d=document.createElement("div");d.style.color=c;d.textContent="> "+t;let l=document.getElementById("log");l.appendChild(d);l.scrollTop=l.scrollHeight}
+function update(){let left=50+shift; sol.style.left=left+"%"; document.getElementById("shiftVal").textContent=shift; document.getElementById("posVal").textContent=left+"%"; document.getElementById("solVal").textContent=shift===0?"MITTE 41":shift<0?"LSHIFT LINKS":"RSHIFT RECHTS";}
+function lshift(){shift-=10; if(shift<-40)shift=-40; update(); log(`SOL LSHIFT ◀ — Shift ${shift} — Sol shiften, Index shiften. Sol bleibt Sol.`,"#fbbf24")}
+function rshift(){shift+=10; if(shift>40)shift=40; update(); log(`SOL RSHIFT ▶ — Shift ${shift} — Sol zurück.`,"#4ade80")}
+function reset(){shift=0; update(); log("SOL RESET ● — Sol wieder MITTE 41. HOME 40.","#888")}
+document.getElementById("btnL").onclick=lshift; document.getElementById("btnR").onclick=rshift; document.getElementById("btnReset").onclick=reset;
+document.getElementById("btnAuto").onclick=()=>{log("SOL AUTO SHIFT — Sol shiften von allein.","#fbbf24"); let i=0; let iv=setInterval(()=>{if(i>=6){clearInterval(iv);reset();return} if(i%2===0)lshift(); else rshift(); i++},500)};
+update(); log("SOL LSHIFT INDEX geladen. Sol da.","#fbbf24"); log("So der Sol LShift Index, Mann. Aber Sol ja shiften, Mann.","#888");
+</script></body></html>
