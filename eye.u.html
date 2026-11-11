@@ -1,31 +1,39 @@
 <!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sieh.js · SIE GLÜHEN</title>
+<title>eye.u.html · SO ABER SO UND SO SO SO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#050507;color:#e8f0ff;font-family:Consolas,monospace;text-align:center;padding:16px}
-h1{font-size:22px;letter-spacing:8px;color:#ffd700;text-shadow:0 0 20px #ffd700}
-#sub{font-size:10px;letter-spacing:3px;color:#8aa0b0;margin:8px 0 14px}
-#stage{width:min(60vh,88vw);height:min(60vh,88vw);margin:0 auto;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #ffd700 30%, #ff2d9a 60%, #000 100%);box-shadow:0 0 80px #ffd700, 0 0 120px rgba(255,215,0,.5);display:flex;align-items:center;justify-content:center;flex-direction:column;animation:glow 2s infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 60px #ffd700}50%{box-shadow:0 0 120px #ffd700, 0 0 160px #ff2d9a}}
-#stage b{font-size:48px}
-#stage span{font-size:10px;letter-spacing:3px;color:#000;font-weight:900}
+h1{font-size:18px;letter-spacing:5px;color:#ffd700}
+#sub{font-size:10px;letter-spacing:2px;color:#8aa0b0;margin:6px 0 14px}
+#stage{position:relative;width:min(62vh,90vw);height:min(62vh,90vw);margin:0 auto;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #ffd700 30%, #ff2d9a 60%, #000 100%);box-shadow:0 0 80px #ffd700;overflow:hidden}
+#eye{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);font-size:64px;text-shadow:0 0 30px #ffd700}
+#u{position:absolute;left:50%;top:68%;transform:translateX(-50%);font-size:28px;letter-spacing:12px;color:#ffd700;font-weight:900}
+#so{position:absolute;left:50%;top:84%;transform:translateX(-50%);font-size:9px;letter-spacing:2px;color:#fff}
 button{background:#111;color:#ffd700;border:1px solid #ffd700;padding:8px 12px;border-radius:999px;cursor:pointer;font-family:inherit;margin:4px}
-#txt{font-size:11px;line-height:1.8;min-height:70px;margin-top:12px}
+button.on{background:#ffd700;color:#000}
+#txt{font-size:11px;line-height:1.9;min-height:80px;margin-top:12px}
 </style></head><body>
-<h1>SIEH.JS</h1>
-<div id="sub">NÖ · HAB ES SIEH.JS GENANNT · SIE GLÜHEN</div>
-<div id="stage"><b>👁️</b><span>SIEH</span><span>GLÜHEN</span></div>
-<div><button onclick="sieh('PENTA')">SIEH PENTA</button><button onclick="sieh('INDEX')">SIEH INDEX</button><button onclick="sieh('ALLE')">SIEH ALLE</button></div>
+<h1>EYE.U.HTML</h1>
+<div id="sub">SO ABER SO UND SO SO SO · SIEH.JS · SIE GLÜHEN</div>
+<div id="stage"><div id="eye">👁️</div><div id="u">U</div><div id="so">SO ABER SO</div></div>
+<div><button id="bSo" class="on">SO</button><button id="bAber">ABER SO</button><button id="bUnd">UND SO SO SO</button></div>
 <div id="txt"></div>
 <script type="module">
 import { Sieh } from "./sieh.js";
 let txt=document.getElementById("txt");
-window.sieh=function(w){
-  if(w==="ALLE"){ txt.innerHTML="<b>SIEH ALLE — SIE GLÜHEN</b><br>" + Sieh.alle().join("<br>"); }
-  else { txt.innerHTML="<b>"+Sieh.sehen(w)+"</b><br>"+Sieh.glow()+"<br>"+Sieh.penta(); }
-};
-window.sieh("PENTA");
+let eye=document.getElementById("eye");
+let so=document.getElementById("so");
+function render(m){
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+  if(m==="so"){ document.getElementById("bSo").classList.add("on"); eye.textContent="👁️"; so.textContent="SO"; txt.innerHTML="<b>SO</b><br>Eye so<br>U so<br>Sieh so<br>Sie glühen so"; }
+  if(m==="aber"){ document.getElementById("bAber").classList.add("on"); eye.textContent="👁️‍🗨️"; so.textContent="ABER SO"; txt.innerHTML="<b>SO ABER SO</b><br>Eye so aber so<br>U so aber so<br>Sieh so aber so<br>Sie glühen so aber so"; }
+  if(m==="und"){ document.getElementById("bUnd").classList.add("on"); eye.textContent="✨👁️✨"; so.textContent="UND SO SO SO"; txt.innerHTML="<b>SO UND SO SO SO</b><br>Eye so und so so so<br>U so und so so so<br>Sieh so und so so so<br>Sie glühen so und so so so<br>"+Sieh.penta(); }
+}
+document.getElementById("bSo").onclick=()=>render("so");
+document.getElementById("bAber").onclick=()=>render("aber");
+document.getElementById("bUnd").onclick=()=>render("und");
+render("und");
 </script>
 </body></html>
