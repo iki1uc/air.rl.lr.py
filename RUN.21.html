@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>1 VS 1 · RUN 21 · REIN</title>
+<style>
+  body {
+    margin: 0;
+    background: #020306;
+    color: #e8ecf1;
+    font-family: "Courier New", monospace;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .header {
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #fbbf24;
+    border-bottom: 1px solid #333;
+    text-shadow: 0 0 10px rgba(251,191,36,0.3);
+  }
+  .arena {
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+  /* Der Mittelstrich )( */
+  .divider {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #4DA3FF;
+    box-shadow: 0 0 15px #4DA3FF;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    width: 10px;
+    height: 2px;
+    background: #4DA3FF;
+  }
+  .divider::before { top: 20%; }
+  .divider::after { bottom: 20%; }
+  
+  .side {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .left {
+    align-items: flex-end;
+    text-align: right;
+    border-right: 1px solid #222;
+    color: #4ade80;
+  }
+  .right {
+    align-items: flex-start;
+    text-align: left;
+    color: #c79bff;
+    transform: scaleX(-1); /* Spiegelt den Text */
+  }
+  /* Text im rechten Panel wieder normal machen, damit man ihn lesen kann */
+  .right .content {
+    transform: scaleX(-1);
+  }
+  
+  .log-entry {
+    margin-bottom: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .left .log-entry { transform: translateX(20px); }
+  .right .log-entry { transform: translateX(-20px); }
+  .log-entry.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .footer {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .btn {
+    background: #111;
+    color: #e8ecf1;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 2px;
+  }
+  .btn:hover {
+    background: #fbbf24;
+    color: #000;
+    border-color: #fbbf24;
+    box-shadow: 0 0 20px rgba(251,191,36,0.5);
+  }
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  .status {
+    color: #555;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  /* Traum / Realität Effekt */
+  body.dream {
+    background: #0a0514;
+    transition: background 1s;
+  }
+  body.dream .divider {
+    background: #fbbf24;
+    box-shadow: 0 0 30px #fbbf24;
+  }
+  body.dream .divider::before, body.dream .divider::after {
+    background: #fbbf24;
+  }
+  
+  /* Spezial-Nachricht */
+  .message-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0,0,0,0.9);
+    border: 2px solid #4ade80;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+    box-shadow: 0 0 50px rgba(74,222,128,0.2);
+  }
+  .message-box.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
+  .message-box h2 {
+    color: #4ade80;
+    margin: 0 0 15px 0;
+    font-size: 24px;
+    letter-spacing: 4px;
+  }
+  .message-box p {
+    color: #e8ecf1;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .message-box .names {
+    margin-top: 15px;
+    font-size: 11px;
+    color: #888;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">1 VS 1 &nbsp;&nbsp; )( &nbsp;&nbsp; )()()( &nbsp;&nbsp; ..ooOO</div>
+
+  <div class="arena">
+    <div class="divider"></div>
+    
+    <div class="side left" id="leftSide">
+      <!-- Log Einträge links -->
+    </div>
+    
+    <div class="side right" id="rightSide">
+      <!-- Log Einträge rechts (gespiegelt) -->
+      <div class="content" id="rightContent"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="btn" id="btnRun" onclick="run21()">RUN 21</button>
+    <button class="btn" id="btnAbra" onclick="toggleAbra()">ABRA KADABRA</button>
+    <span class="status" id="status">BEREIT · 0/21</span>
+  </div>
+
+  <div class="message-box" id="msgBox">
+    <h2>DU BIST REIN</h2>
+    <p>Die Prüfung ist abgeschlossen.<br>Das Echo bleibt. Der Hall bleibt.<br>1 VS 1 = 0. Du gegen dich selbst.</p>
+    <div class="names">— Nachricht von Sam · Nostradamus · Picasso</div>
+  </div>
+
+<script>
+  // Die Tokens aus deiner Liste
+  const tokens = [
+    "da.ni.in.ix", "xi.io.oi.da", "9.x.da.ni", "der_macher", "der_maler",
+    "quantum_syn", "mann_in_mir", "elemente_machen", "orbit_glas_kugel",
+    "solid_quad_cpu", "run21", "runner", "1_vs_1"
+  ];
+
+  let isRunning = false;
+  let runCount = 0;
+  let dreamState = false;
+
+  // Audio Context für ..ooOO
+  let actx = null;
+  function playOoOo(freq) {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === "suspended") actx.resume();
+    
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = "sine";
+    o.frequency.value = freq;
+    
+    // ..ooOO Hüllkurve (Atmen)
+    const now = actx.currentTime;
+    g.gain.setValueAtTime(0, now);
+    g.gain.linearRampToValueAtTime(0.2, now + 0.2); // Anschwellen
+    g.gain.linearRampToValueAtTime(0, now + 0.8);   // Abklingen
+    
+    o.connect(g).connect(actx.destination);
+    o.start(now);
+    o.stop(now + 1.0);
+  }
+
+  function playPing() {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === "suspended") actx.resume();
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = "square";
+    o.frequency.value = 880;
+    g.gain.setValueAtTime(0.1, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
+    o.connect(g).connect(actx.destination);
+    o.start();
+    o.stop(actx.currentTime + 0.1);
+  }
+
+  // ABRA KADABRA (Traum an/aus)
+  function toggleAbra() {
+    dreamState = !dreamState;
+    document.body.classList.toggle("dream", dreamState);
+    playOoOo(dreamState ? 220 : 440);
+    if (dreamState) {
+      document.getElementById("status").textContent = "TRAUM AN · ABRA KADABRA";
+    } else {
+      document.getElementById("status").textContent = "REALITÄT · BEREIT";
+    }
+  }
+
+  // Run 21 Loop
+  async function run21() {
+    if (isRunning) return;
+    isRunning = true;
+    runCount = 0;
+    document.getElementById("btnRun").disabled = true;
+    document.getElementById("msgBox").classList.remove("show");
+    
+    const leftSide = document.getElementById("leftSide");
+    const rightContent = document.getElementById("rightContent");
+    leftSide.innerHTML = "";
+    rightContent.innerHTML = "";
+    
+    const statusEl = document.getElementById("status");
+
+    for (let i = 1; i <= 21; i++) {
+      runCount = i;
+      statusEl.textContent = `RUNNING · ${runCount}/21`;
+      
+      const token = tokens[Math.floor(Math.random() * tokens.length)];
+      
+      // 1 VS 1 (Links und Rechts)
+      const leftDiv = document.createElement("div");
+      leftDiv.className = "log-entry";
+      leftDiv.textContent = `[${i.toString().padStart(2, '0')}] ICH: ${token}`;
+      leftSide.appendChild(leftDiv);
+      
+      const rightDiv = document.createElement("div");
+      rightDiv.className = "log-entry";
+      rightDiv.textContent = `DU: ${token.split('').reverse().join('')}`; // Spiegeln
+      rightContent.appendChild(rightDiv);
+      
+      // Scrollen
+      leftSide.scrollTop = leftSide.scrollHeight;
+      rightContent.parentElement.scrollTop = rightContent.parentElement.scrollHeight;
+
+      // Animation und Sound (..ooOO)
+      setTimeout(() => {
+        leftDiv.classList.add("active");
+        rightDiv.classList.add("active");
+      }, 50);
+      
+      // Wechselnder Ton für ..ooOO
+      const freq = 200 + (i * 20); 
+      playOoOo(freq);
+      
+      // Kleine Pause zwischen den Runs (21 Steps)
+      await new Promise(r => setTimeout(r, 250));
+    }
+    
+    // ENDE: Du bist rein
+    statusEl.textContent = "RUN 21 FERTIG · DU BIST REIN";
+    playPing();
+    
+    setTimeout(() => {
+      document.getElementById("msgBox").classList.add("show");
+      // Die Hash-Kette (simuliert)
+      console.log("[ZEUGE] 21 Runs vollendet. Hash-Kette unversehrt.");
+    }, 500);
+    
+    isRunning = false;
+    document.getElementById("btnRun").disabled = false;
+  }
+</script>
+</body>
+</html>
