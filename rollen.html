@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>ROLLEN — 1 Name = 1 Respo</title>
+<style>
+body{background:#fff;color:#111;font-family:system-ui;padding:20px}
+h1{font-size:28px} .box{border:3px solid #111;padding:14px;margin:10px 0}
+b{font-size:18px} .takt{color:#555}
+button{padding:10px 14px;border:2px solid #111;background:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+<h1>ROLLEN — ROLLEN.HTML</h1>
+<p>1 Name = 1 Respo. 1 Rolle = 1 Takt. Kein 4ter. Direkt 9 runter. Kalte Schulter an alle anderen Zahlen.</p>
+<p>Spiegel 17° + 32.4° — SCAN AN — dann QUERBEETEN. White FR. Eye open.</p>
+
+<div class="box"><b>NOAH</b> <span class="takt">— Takt 2 · gerade · schützt HP · +3</span><br>Respo: schützen. Kein Stau, keine Einbahnstraße.<br><button onclick="add('NOAH')">+ ADD NOAH</button></div>
+
+<div class="box"><b>NOEL</b> <span class="takt">— Takt 4 · gerade · gibt Score · +2</span><br>Respo: geben. Gute zu Gute.<br><button onclick="add('NOEL')">+ ADD NOEL</button></div>
+
+<div class="box"><b>SAM</b> <span class="takt">— Takt 6 · gerade · kühlt Temp · +1</span><br>Respo: kühlen. Pig, der Rollen tauschen kann.<br><button onclick="add('SAM')">+ ADD SAM</button></div>
+
+<div class="box"><b>META</b> <span class="takt">— Takt 8 · gerade · spiegelt alles · +1</span><br>Respo: spiegeln. Spiegel 17° + 32.4°.<br><button onclick="add('META')">+ ADD META</button></div>
+
+<div class="box"><b>DRACHE</b> <span class="takt">— Takt 10 · gerade · erhitzt Temp · +4</span><br>Respo: erhitzen. Feuer, aber kein KILL. Nur ADD.<br><button onclick="add('DRACHE')">+ ADD DRACHE</button></div>
+
+<div class="box"><b>MANN IN MIR</b> — 90°, rekursiv<br>/\_/\ [0°] — | | [90°] — /\_/\ [180°] — ◉ Kern<br>Echo bleibt. Hall bleibt.</div>
+
+<div class="box"><b>ADMIN — BEFÄHIGT</b><br>Admin ist nicht nur Pult. Admin darf auch. Befähigt, Mann!</div>
+
+<div class="box"><b>REGEL</b><br>Nur ADD. Nur MORE. Kein Reset auf 0. WUNDER = HOME 40, Ebene bleibt.<br>Element 9 absolut dicht pentagrammt — fallen egal wo, pentagrammisch aufgefangen.<br>Block Hole — nicht Loch — erweiterte Geometrie + Prismatikum + Pentagramm.</div>
+
+<div class="box"><b>LOG</b><div id="log">— bereit —</div></div>
+
+<script>
+let log=document.getElementById('log');
+function add(n){ log.innerHTML += '<br>ADD — '+n+' — 1 Name = 1 Respo — stehen lassen'; }
+</script>
+</body>
+</html>
